@@ -13,11 +13,14 @@ const ListarComFiltroContatos = () => {
   useEffect(() => {
 
     findAllContatos();
-    setdadosFiltrados(contatos);
-   
-  }, [contatos, dadosFiltrados]);
+   // setdadosFiltrados(contatos);
+   // tem que ajustar este useEffect não esta filtrando ainda.
+  }, [contatos]);
 
-
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+  
   const searchFilter = (text) => {
     if (text) {
       const newData = contatos.filter(
@@ -56,6 +59,9 @@ const ListarComFiltroContatos = () => {
   function findAllContatos (){
     ContatoServico.findAll().then((response: any) => {
         setContatos(response._array);
+        setdadosFiltrados(contatos);
+        setLoading(false);
+
     }), (error: any) => {
         console.log(error);
     }
